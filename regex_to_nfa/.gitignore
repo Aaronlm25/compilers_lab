@@ -1,0 +1,11 @@
+# Artefactos generados por CMake al ejecutar `cmake .`
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Ejecutable compilado
+regex_to_nfa
+
+# Archivos objeto
+*.o
