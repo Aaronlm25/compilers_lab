@@ -9,3 +9,5 @@ regex_to_nfa
 
 # Archivos objeto
 *.o
+.vscode/
+
