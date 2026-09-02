@@ -22,6 +22,8 @@ typedef enum
     TOKEN_CONCAT,   /* concatenacion explicita                */
     TOKEN_UNION,    /* alternancia: |                         */
     TOKEN_STAR,     /* cerradura de Kleene: *                 */
+    TOKEN_PLUS,     /* cerradura positiva: +                  */
+    TOKEN_QUESTION, /* opcional: ?                            */
     TOKEN_LPAREN,   /* parentesis izquierdo: (                */
     TOKEN_RPAREN    /* parentesis derecho: )                  */
 } token_type;
