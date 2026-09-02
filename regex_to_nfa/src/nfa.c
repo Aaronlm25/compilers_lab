@@ -11,7 +11,6 @@ typedef struct
     int accept;
 } fragment;
 
-
 static int new_state(nfa *n, char symbol, int out1, int out2)
 {
     if (n->count == n->capacity)
@@ -84,6 +83,63 @@ nfa regex_to_nfa(regex r)
             break;
         }
 
+        /* TOKEN_UNION y TOKEN_STAR */
+        case TOKEN_UNION:
+        {
+            if (tope < 2)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            fragment b = pila[--tope];
+            fragment a = pila[--tope];
+
+            int fin = new_state(&n, EPSILON, NO_STATE, NO_STATE);
+            int ini = new_state(&n, EPSILON, a.start, b.start);
+            if(ini == NO_STATE || fin == NO_STATE)
+            {
+                free_nfa(&n);
+                return n;
+            }
+
+            n.states[a.accept].symbol = EPSILON;
+            n.states[a.accept].out1 = fin;
+            n.states[b.accept].symbol = EPSILON;
+            n.states[b.accept].out1 = fin;
+
+            pila[tope].start = ini;
+            pila[tope].accept = fin;
+            tope++;
+
+            break;
+        }
+
+        case TOKEN_STAR:
+        {
+            if (tope < 1)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            fragment a = pila[--tope];
+
+            int fin = new_state(&n, EPSILON, NO_STATE, NO_STATE);
+            int ini = new_state(&n, EPSILON, a.start, fin);
+            if (fin == NO_STATE || ini == NO_STATE)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            n.states[a.accept].symbol = EPSILON;
+            n.states[a.accept].out1 = a.start;
+            n.states[a.accept].out2 = fin;
+
+            pila[tope].start = ini;
+            pila[tope].accept = fin;
+            tope++;
+            break;
+        }
+
     }
 }
 
@@ -98,7 +154,6 @@ nfa regex_to_nfa(regex r)
 
     return n;
 }
-
 
 static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited)
 {
@@ -194,7 +249,6 @@ void free_nfa(nfa *n)
     n->start = NO_STATE;
     n->accept = NO_STATE;
 }
-
 
 bool save_nfa(const nfa *n, const char *path)
 {
