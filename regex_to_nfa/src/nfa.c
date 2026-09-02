@@ -149,5 +149,35 @@ int match_nfa(nfa n, const char *text, size_t len)
     return aceptada;
 }
 
+void free_nfa(nfa *n)
+{
+    if (n == NULL)
+    {
+        return;
+    }
+
+    free(n->states);
+
+    n->states = NULL;
+    n->count = 0;
+    n->capacity = 0;
+    n->start = NO_STATE;
+    n->accept = NO_STATE;
+}
 
 
+bool save_nfa(const nfa *n, const char *path)
+{
+    (void)n;
+    (void)path;
+
+    return false;
+}
+
+bool load_nfa(nfa *n, const char *path)
+{
+    (void)n;
+    (void)path;
+
+    return false;
+}
