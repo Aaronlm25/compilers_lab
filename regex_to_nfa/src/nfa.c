@@ -89,5 +89,65 @@ static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited
     }
 }
 
+int match_nfa(nfa n, const char *text, size_t len)
+{
+    if (n.start == NO_STATE || n.count <= 0)
+    {
+        return 0;
+    }
+
+    int *actual = malloc(n.count * sizeof(int));
+    int *siguiente = malloc(n.count * sizeof(int));
+    int *visited = malloc(n.count * sizeof(int));
+
+    if (actual == NULL || siguiente == NULL || visited == NULL)
+    {
+        free(actual);
+        free(siguiente);
+        free(visited);
+        return 0;
+    }
+
+    int actual_size = 0;
+    memset(visited, 0, n.count * sizeof(int));
+    add_state(&n, n.start, actual, &actual_size, visited);
+
+        for (size_t i = 0; i < len; i++)
+    {
+        int siguiente_size = 0;
+        memset(visited, 0, n.count * sizeof(int));
+
+        for (int j = 0; j < actual_size; j++)
+        {
+            int s = actual[j];
+            if (n.states[s].symbol == text[i])
+            {
+                add_state(&n, n.states[s].out1, siguiente, &siguiente_size, visited);
+            }
+        }
+
+        int *tmp = actual;
+        actual = siguiente;
+        siguiente = tmp;
+        actual_size = siguiente_size;
+    }
+
+        int aceptada = 0;
+    for (int j = 0; j < actual_size; j++)
+    {
+        if (actual[j] == n.accept)
+        {
+            aceptada = 1;
+            break;
+        }
+    }
+
+    free(actual);
+    free(siguiente);
+    free(visited);
+
+    return aceptada;
+}
+
 
 
