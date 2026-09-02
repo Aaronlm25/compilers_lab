@@ -70,6 +70,24 @@ nfa regex_to_nfa(regex r)
 }
 
 
+static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited)
+{
+    if (s == NO_STATE || visited[s])
+    {
+        return;
+    }
+
+    visited[s] = 1;
+
+    set[*set_size] = s;
+    (*set_size)++;
+
+    if (n->states[s].symbol == EPSILON)
+    {
+        add_state(n, n->states[s].out1, set, set_size, visited);
+        add_state(n, n->states[s].out2, set, set_size, visited);
+    }
+}
 
 
 
