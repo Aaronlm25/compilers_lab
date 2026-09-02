@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Capacidad inicial del arreglo */
 #define INITIAL_CAPACITY 32
 
 typedef struct
@@ -11,7 +10,6 @@ typedef struct
     int start;
     int accept;
 } fragment;
-
 
 
 static int new_state(nfa *n, char symbol, int out1, int out2)
@@ -52,7 +50,39 @@ nfa regex_to_nfa(regex r)
     {
         switch (r.items[i].type)
         {
+        case TOKEN_SYMBOL:
+        {
+            int f = new_state(&n, EPSILON, NO_STATE, NO_STATE);
+            int s = new_state(&n, r.items[i].value, f, NO_STATE);
+            if (f == NO_STATE || s == NO_STATE)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            pila[tope].start = s;
+            pila[tope].accept = f;
+            tope++;
+            break;
+        }
 
+        case TOKEN_CONCAT:
+        {
+            if (tope < 2)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            fragment b = pila[--tope];
+            fragment a = pila[--tope];
+
+            n.states[a.accept].symbol = EPSILON;
+            n.states[a.accept].out1 = b.start;
+
+            pila[tope].start = a.start;
+            pila[tope].accept = b.accept;
+            tope++;
+            break;
+        }
 
     }
 }
