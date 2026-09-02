@@ -3,14 +3,32 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Capacidad inicial del arreglo de estados */
 #define INITIAL_CAPACITY 32
 
+
+/* Representa un sub-grafo de un automata finito NFA 
+*
+* Lo utilizamos para construir el NFA a partir de la expresion regular.
+*/
 typedef struct
 {
     int start;
     int accept;
 } fragment;
 
+
+/**
+ * Crea un nuevo estado en el NFA y devuelve su indice.
+ * Si no hay memoria suficiente, devuelve NO_STATE.
+ *  
+ * @param n Puntero al NFA donde se agregara el estado.
+ * @param symbol Simbolo que consume la transicion, o EPSILON.
+ * @param out1 Primer destino del estado, o NO_STATE.
+ * @param out2 Segundo destino del estado (solo para transiciones epsilon), o NO_STATE.
+ * 
+ * @return Indice del nuevo estado en el arreglo de estados del NFA, o NO_STATE si no hay memoria suficiente.
+ */
 static int new_state(nfa *n, char symbol, int out1, int out2)
 {
     if (n->count == n->capacity)
@@ -33,6 +51,17 @@ static int new_state(nfa *n, char symbol, int out1, int out2)
 }
 
 
+/**
+ * Convierte una expresión regular en un Autómata NFA.
+ * Esta función toma una expresión regular previamente procesada
+ * y construye su NFA equivalente utilizando el Algoritmo de Construcción de Thompson. 
+ * Utiliza una pila interna de estructuras para ir enlazando los estados 
+ * del autómata de forma modular.
+ * 
+ * @param r Estructura que contiene el arreglo de tokens de la expresión regular en postfijo.
+ * @return nfa El autómata finito construido, amenos que no haya suficiente memoria, en ese caso manda 
+ *         un NFA con estados 'NO_STATE'.
+ */
 nfa regex_to_nfa(regex r)
 {
     nfa n;
@@ -212,6 +241,19 @@ nfa regex_to_nfa(regex r)
     return n;
 }
 
+/**
+ * Agrega un estado al conjunto de estados alcanzables desde el estado `s` en el NFA `n`.
+ * Si el estado `s` es un estado de transición epsilon, 
+ * se agregan recursivamente los estados alcanzables desde sus destinos.
+ * 
+ * @param n Puntero al NFA.
+ * @param s Indice del estado a agregar al conjunto.
+ * @param set Arreglo donde se almacenan los estados alcanzables.
+ * @param set_size Puntero al tamaño actual del conjunto de estados.
+ * @param visited Arreglo de estados visitados para evitar ciclos.
+ * 
+ * @return retorna el conjunto de estados alcanzables, se actualiza en `set` y `set_size`.
+ */
 static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited)
 {
     if (s == NO_STATE || visited[s])
@@ -231,6 +273,16 @@ static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited
     }
 }
 
+
+/**
+ * Verifica si el texto dado es aceptado por el NFA.
+ * 
+ * @param n Puntero al NFA.
+ * @param text Texto a verificar.
+ * @param len Longitud del texto.
+ * 
+ * @return 1 si el texto es aceptado, 0 en caso contrario.
+ */
 int match_nfa(nfa n, const char *text, size_t len)
 {
     if (n.start == NO_STATE || n.count <= 0)
@@ -291,6 +343,11 @@ int match_nfa(nfa n, const char *text, size_t len)
     return aceptada;
 }
 
+/**
+ * Libera la memoria asignada para el NFA.
+ * @param n Puntero al NFA.
+ * @return libera la memoria del NFA y reinicia sus campos.
+ */
 void free_nfa(nfa *n)
 {
     if (n == NULL)
@@ -307,6 +364,12 @@ void free_nfa(nfa *n)
     n->accept = NO_STATE;
 }
 
+/**
+ * Guarda el NFA en un archivo binario.
+ * @param n Puntero al NFA.
+ * @param path Ruta del archivo donde se guardará el NFA.
+ * @return true si se guardó correctamente, false en caso contrario.
+ */
 bool save_nfa(const nfa *n, const char *path)
 {
     (void)n;
@@ -315,6 +378,12 @@ bool save_nfa(const nfa *n, const char *path)
     return false;
 }
 
+/**
+ * Carga un NFA desde un archivo binario.
+ * @param n Puntero al NFA donde se cargará la información.
+ * @param path Ruta del archivo desde donde se cargará el NFA.
+ * @return true si se cargó correctamente, false en caso contrario.
+ */
 bool load_nfa(nfa *n, const char *path)
 {
     (void)n;
