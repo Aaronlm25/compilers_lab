@@ -83,7 +83,6 @@ nfa regex_to_nfa(regex r)
             break;
         }
 
-        /* TOKEN_UNION y TOKEN_STAR */
         case TOKEN_UNION:
         {
             if (tope < 2)
@@ -140,6 +139,58 @@ nfa regex_to_nfa(regex r)
             break;
         }
 
+        case TOKEN_PLUS:
+        {
+            if (tope < 1)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            fragment a = pila[--tope];
+
+            int fin = new_state(&n, EPSILON, NO_STATE, NO_STATE);
+            int ini = new_state(&n, EPSILON, a.start, NO_STATE);
+            if (fin == NO_STATE || ini == NO_STATE)
+            {
+                free_nfa(&n);
+                return n;
+            }
+
+            n.states[a.accept].symbol = EPSILON;
+            n.states[a.accept].out1 = a.start;
+            n.states[a.accept].out2 = fin;
+
+            pila[tope].start = ini;
+            pila[tope].accept = fin;
+            tope++;
+            break;
+        }
+
+        case TOKEN_QUESTION:
+        {
+            if (tope < 1)
+            {
+                free_nfa(&n);
+                return n;
+            }
+            fragment a = pila[--tope];
+
+            int fin = new_state(&n, EPSILON, NO_STATE, NO_STATE);
+            int ini = new_state(&n, EPSILON, a.start, fin);
+            if (fin == NO_STATE || ini == NO_STATE)
+            {
+                free_nfa(&n);
+                return n;
+            }
+
+            n.states[a.accept].symbol = EPSILON;
+            n.states[a.accept].out1 = fin;
+
+            pila[tope].start = ini;
+            pila[tope].accept = fin;
+            tope++;
+            break;
+        }
     }
 }
 
