@@ -191,8 +191,14 @@ nfa regex_to_nfa(regex r)
             tope++;
             break;
         }
+ 
+        case TOKEN_LPAREN:
+        case TOKEN_RPAREN:
+        default:
+            free_nfa(&n);
+            return n;
+        }
     }
-}
 
     if (tope != 1)
     {
