@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Capacidad inicial del arreglo de estados */
+/* Capacidad inicial del arreglo de estados*/
 #define INITIAL_CAPACITY 32
 
 
 /* Representa un sub-grafo de un automata finito NFA 
 *
-* Lo utilizamos para construir el NFA a partir de la expresion regular.
+* Lo utilizamos para construir el NFA a partir de la expresion regular obtenida del regex.
 */
 typedef struct
 {
@@ -82,6 +82,7 @@ nfa regex_to_nfa(regex r)
         {
             int f = new_state(&n, EPSILON, NO_STATE, NO_STATE);
             int s = new_state(&n, r.items[i].value, f, NO_STATE);
+            // f es el estado de aceptacion (epsilon, sin salidas) y s el estado que consume el caracter con out1 = f
             if (f == NO_STATE || s == NO_STATE)
             {
                 free_nfa(&n);
@@ -121,7 +122,8 @@ nfa regex_to_nfa(regex r)
             }
             fragment b = pila[--tope];
             fragment a = pila[--tope];
-
+            
+            // fin une las dos ramas y ini bifurca hacia el inicio de cada fragmento
             int fin = new_state(&n, EPSILON, NO_STATE, NO_STATE);
             int ini = new_state(&n, EPSILON, a.start, b.start);
             if(ini == NO_STATE || fin == NO_STATE)
@@ -158,6 +160,7 @@ nfa regex_to_nfa(regex r)
                 free_nfa(&n);
                 return n;
             }
+            // ini permite entrar al fragmento o saltarlo directo a fin (cero repeticiones) la aceptacion de a vuelve a a.start (repetir) o avanza a fin (salir)
             n.states[a.accept].symbol = EPSILON;
             n.states[a.accept].out1 = a.start;
             n.states[a.accept].out2 = fin;
@@ -256,6 +259,7 @@ nfa regex_to_nfa(regex r)
  */
 static void add_state(const nfa *n, int s, int *set, int *set_size, int *visited)
 {
+    // calcula la cerradura epsilon de s: lo agrega al conjunto y, si es un estado epsilon, se expande recursivamente por out1 y out2
     if (s == NO_STATE || visited[s])
     {
         return;
