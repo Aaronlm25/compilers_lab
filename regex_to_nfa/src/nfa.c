@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Capacidad inicial del arreglo de estados */
+/* Capacidad inicial del arreglo de estados*/
 #define INITIAL_CAPACITY 32
 
 
 /* Representa un sub-grafo de un automata finito NFA 
 *
-* Lo utilizamos para construir el NFA a partir de la expresion regular.
+* Lo utilizamos para construir el NFA a partir de la expresion regular obtenida del regex.
 */
 typedef struct
 {
