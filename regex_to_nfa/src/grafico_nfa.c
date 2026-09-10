@@ -276,7 +276,6 @@ void dibujaNfa(const grafico* g,cadena* c,const char* expresion){
 		snprintf(txt,sizeof(txt),"regex:  %s",esc);
 		etiqueta(&f,c,txt,MARGENTXT,38,CTEXTO,19,"start");
 	}
-	etiqueta(&f,c,"automata construido con el algoritmo de Thompson",g->ancho-MARGENTXT,38,CTENUE,15,"end");
 	for(int v=0;v<g->automata.count;v++){
 		for(int s=0;s<2;s++){
 			int ng=(s==0)?g->automata.states[v].out1:g->automata.states[v].out2;
