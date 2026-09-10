@@ -6,6 +6,7 @@
 #include <string.h>
 #include <getopt.h>
 
+// Imprime el arreglo de tokens ya en notacion postfija, un caracter por token, sin separadores, usado por el modo -r
 void print_postfix(regex r)
 {
     for (int i = 0; i < r.size; i++)
@@ -15,6 +16,7 @@ void print_postfix(regex r)
     printf("\n");
 }
 
+// Construye el NFA una sola vez y lo reutiliza para evaluar cada linea restante de stdin; usado por el modo -t
 void test_strings_stdin(const char *regex_str)
 {
     regex r = parse_regex(regex_str);
@@ -49,6 +51,8 @@ int serialize_nfa_from_regex(const char *regex_str, const char *output_path)
     return 0;
 }
 
+// Construye el NFA, calcula su distribucion grafica con iniciaGrafico y escribe el SVG resultante con escribeNfa usado por -g
+int draw_nfa_from_regex(const char *regex_str, const char *ou
 int draw_nfa_from_regex(const char *regex_str, const char *output_path)
 {
     regex r = parse_regex(regex_str);
@@ -76,6 +80,7 @@ int draw_nfa_from_regex(const char *regex_str, const char *output_path)
     return 0;
 }
 
+// Parsea las opciones de linea de comandos para elegir un modo de operacion, luego lee la expresion regular desde la primera linea de stdin y ejecuta el modo correspondiente
 int main(int argc, char *argv[])
 {
     int opt;
