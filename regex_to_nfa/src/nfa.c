@@ -363,31 +363,3 @@ void free_nfa(nfa *n)
     n->start = NO_STATE;
     n->accept = NO_STATE;
 }
-
-/**
- * Guarda el NFA en un archivo binario.
- * @param n Puntero al NFA.
- * @param path Ruta del archivo donde se guardará el NFA.
- * @return true si se guardó correctamente, false en caso contrario.
- */
-bool save_nfa(const nfa *n, const char *path)
-{
-    (void)n;
-    (void)path;
-
-    return false;
-}
-
-/**
- * Carga un NFA desde un archivo binario.
- * @param n Puntero al NFA donde se cargará la información.
- * @param path Ruta del archivo desde donde se cargará el NFA.
- * @return true si se cargó correctamente, false en caso contrario.
- */
-bool load_nfa(nfa *n, const char *path)
-{
-    (void)n;
-    (void)path;
-
-    return false;
-}

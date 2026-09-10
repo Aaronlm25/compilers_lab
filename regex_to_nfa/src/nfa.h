@@ -2,7 +2,6 @@
 #define NFA_H
 
 #include <stddef.h>
-#include <stdbool.h>
 
 #include "regex.h"
 
@@ -71,18 +70,5 @@ int match_nfa(nfa n, const char *text, size_t len);
 
 /* Libera la memoria del automata y lo deja en un estado seguro. */
 void free_nfa(nfa *n);
-
-/*
- * Guarda el automata en un archivo con formato JSON.
- * Devuelve true si la escritura fue exitosa.
- */
-bool save_nfa(const nfa *n, const char *path);
-
-/*
- * Carga un automata previamente guardado en formato JSON.
- * Devuelve true si la lectura fue exitosa; en ese caso el automata
- * resultante debe liberarse con free_nfa.
- */
-bool load_nfa(nfa *n, const char *path);
 
 #endif /* NFA_H */
