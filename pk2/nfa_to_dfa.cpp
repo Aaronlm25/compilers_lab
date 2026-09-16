@@ -8,6 +8,8 @@ constexpr int MAXQ = 256;
 using Conjunto = bitset<MAXQ>;
 constexpr int MUERTO = -1;
 
+/* ----- NFA ----- */
+
 struct NFA {
     int n = 0, q0 = 0;
     string sigma;                            // alfabeto sin epsilon
@@ -46,3 +48,33 @@ Conjunto Move(const NFA& N, const Conjunto& T, int a) {
         for (int u : N.delta[s][a]) R.set(u);                // R <- R U delta(s,a)
     return R;
 }
+
+/* ---- Algoritmo 2: epsilon-Closure ---- */
+ 
+Conjunto eClosure(const NFA& N, const Conjunto& T) {
+    vector<int> pila;
+    for (size_t s = T._Find_first(); s < T.size(); s = T._Find_next(s))
+        pila.push_back((int)s);
+ 
+    Conjunto C = T;                          
+    while (!pila.empty()) {
+        int t = pila.back();
+        pila.pop_back();
+        for (int u : N.eps[t])
+            if (!C.test(u)) {                // el bitset hace de "visitado"
+                C.set(u);
+                pila.push_back(u);
+            }
+    }
+    return C;
+}
+ 
+/* ----- AFD ----- */
+ 
+struct DFA {
+    string sigma;
+    vector<Conjunto> subconj;                // subconj[i] = subconjunto de Q_N
+    vector<vector<int>> delta;               // delta[i][a], MUERTO si no existe
+    int s0 = 0;
+    vector<char> esFinal;
+};
