@@ -1,5 +1,5 @@
 #include "dfa.h"
-
+#include<algorithm>
 /*
  * Practica 3: algoritmo de refinamiento de particiones de Hopcroft.
  *
@@ -97,6 +97,18 @@ DFA minimize_dfa(const DFA &dfa)
     dfa_min.delta.assign(P.size(), std::vector<int>(m, DFA_DEAD));
     dfa_min.accept.assign(P.size(), 0);
 
+    for (size_t i = 0; i < P.size(); i++)
+    {
+        int q = *P[i].begin();
+        dfa_min.accept[i] = dfa.accept[q];
+        for (int c = 0; c < m; c++)
+        {
+            if (dfa.delta[q][c] != DFA_DEAD)
+            {
+                dfa_min.delta[i][c] = bloque[dfa.delta[q][c]];
+            }
+        }
+    }
 
-
+    return dfa_min;
 }
