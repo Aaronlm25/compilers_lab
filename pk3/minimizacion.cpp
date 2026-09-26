@@ -81,7 +81,22 @@ DFA minimize_dfa(const DFA &dfa)
         }
     }
 
-    
+    std::vector<int> bloque(n);
+    for (size_t i = 0; i < P.size(); i++)
+    {
+        for (int q : P[i])
+        {
+            bloque[q] = (int)i;
+        }
+    }
+
+    DFA dfa_min;
+    dfa_min.alphabet = dfa.alphabet;
+    dfa_min.subsets = P;
+    dfa_min.start = bloque[dfa.start];
+    dfa_min.delta.assign(P.size(), std::vector<int>(m, DFA_DEAD));
+    dfa_min.accept.assign(P.size(), 0);
+
 
 
 }
