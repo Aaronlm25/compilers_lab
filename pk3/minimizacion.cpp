@@ -11,10 +11,14 @@
  */
 DFA minimize_dfa(const DFA &dfa)
 {
-    DFA dfa_min;
-    dfa_min.alphabet = dfa.alphabet;
+    int n = (int)dfa.subsets.size();
+    int m = (int)dfa.alphabet.size();
 
-    // reemplazar este cuerpo por el algoritmo de Hopcroft.
+    std::set<int> f, no_f;
+    for (int q = 0; q < n; q++)
+    {
+        (dfa.accept[q] ? f : no_f).insert(q);
+    }
 
-    return dfa_min;
+    
 }
