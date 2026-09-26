@@ -109,39 +109,27 @@ DFA nfa_to_dfa(const nfa &n)
 void print_dfa(const DFA &dfa, const char *titulo)
 {
     std::cout << "--- " << titulo << " ---\n";
-    std::cout << "alfabeto: " << dfa.alphabet << "\n";
-    std::cout << "estados: " << dfa.subsets.size() << "\n";
-    std::cout << "inicial: " << dfa.start << "\n";
-
-    for (size_t i = 0; i < dfa.subsets.size(); i++)
+    std::cout << "Estado Inicial: " << dfa.start << "\n";
+    std::cout << "Estados de Aceptacion: ";
+    for (size_t i = 0; i < dfa.accept.size(); i++)
     {
-        std::cout << i << (dfa.accept[i] ? "* {" : " {");
-
-        bool primero = true;
-        for (int s : dfa.subsets[i])
+        if (dfa.accept[i])
         {
-            if (!primero)
-            {
-                std::cout << ",";
-            }
-            std::cout << s;
-            primero = false;
+            std::cout << i << " ";
         }
-        std::cout << "}";
+    }
+    std::cout << "\nTransiciones:\n";
 
+    for (size_t i = 0; i < dfa.delta.size(); i++)
+    {
         for (size_t a = 0; a < dfa.alphabet.size(); a++)
         {
-            std::cout << " " << dfa.alphabet[a] << "->";
-            if (dfa.delta[i][a] == DFA_DEAD)
+            if (dfa.delta[i][a] != DFA_DEAD)
             {
-                std::cout << "-";
-            }
-            else
-            {
-                std::cout << dfa.delta[i][a];
+                std::cout << "  d(" << i << ", '" << dfa.alphabet[a] << "') -> "
+                           << dfa.delta[i][a] << "\n";
             }
         }
-        std::cout << "\n";
     }
 }
 

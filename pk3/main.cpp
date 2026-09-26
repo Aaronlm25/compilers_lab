@@ -55,10 +55,10 @@ int main()
     nfa n = regex_to_nfa(r);
 
     DFA original = nfa_to_dfa(n);
-    print_dfa(original, "DFA Original");
+    print_dfa(original, "Tabla de Transiciones (DFA Original)");
 
     DFA minimizado = minimize_dfa(original);
-    print_dfa(minimizado, "DFA Minimizado");
+    print_dfa(minimizado, "Tabla de Transiciones (DFA Minimizado)");
 
     bool cumple = original.subsets.size() >= minimizado.subsets.size();
     std::cout << "\nComprobacion |Q| >= |Q'|: " << original.subsets.size()
