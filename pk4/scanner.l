@@ -3,6 +3,8 @@
 %{
 #include <stdio.h>
 #include "scanner.h"
+
+#define YY_DECL int scanner_raw_lex(void)
 %}
 
 %x COMMENT
@@ -60,6 +62,9 @@ WS          [ \t\r\n]+
 "puberty"               { return TOK_BIT_XOR; }
 "amnesia"               { return TOK_BIT_NOT; }
 
+"++"                    { return TOK_INC; }
+"--"                    { return TOK_DEC; }
+
 "statup"                { return TOK_INC; }
 "statdown"              { return TOK_DEC; }
 
@@ -105,3 +110,44 @@ WS          [ \t\r\n]+
 .                       { return TOK_ERROR; }
 
 %%
+
+int scanner_last_token =0;
+static int closes_operand(int token)
+{
+	switch (token) {
+		case TOK_IDENTIFIER:
+		case TOK_INT_LITERAL:
+		case TOK_FLOAT_LITERAL:
+		case TOK_STRING_LITERAL:
+		case TOK_CHAR_LITERAL:
+		case TOK_BOOL_LITERAL:
+		case TOK_RPAREN:
+		case TOK_RBRACKET:
+		case TOK_POST_INC:
+		case TOK_POST_DEC:
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+int yylex(void)
+{
+	int token = scanner_raw_lex();
+
+	if (token == TOK_INC) {
+		if (closes_operand(scanner_last_token)) {
+			token = TOK_POST_INC;
+		} else {
+			token = TOK_PRE_INC;
+		}
+	} else if (token == TOK_DEC) {
+		if (closes_operand(scanner_last_token)) {
+			token = TOK_POST_DEC;
+		} else {
+			token = TOK_PRE_DEC;
+		}
+	}
+	scanner_last_token = token;
+	return token;
+}

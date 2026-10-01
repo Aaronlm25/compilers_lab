@@ -44,6 +44,10 @@ typedef enum ScannerToken {
 
 	TOK_INC,
 	TOK_DEC,
+	TOK_PRE_INC,
+	TOK_POST_INC,
+	TOK_PRE_DEC,
+	TOK_POST_DEC,
 	TOK_PLUS_ASSIGN,
 	TOK_MINUS_ASSIGN,
 	TOK_MUL_ASSIGN,
@@ -88,4 +92,6 @@ typedef enum ScannerToken {
 
 const char *scanner_token_name(int token);
 
-#endif // SCANNER_H
+extern int scanner_last_token;
+
+#endif

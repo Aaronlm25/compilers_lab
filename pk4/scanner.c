@@ -54,6 +54,10 @@ const char *scanner_token_name(int token)
 
 		case TOK_INC: return "INC";
 		case TOK_DEC: return "DEC";
+		case TOK_PRE_INC: return "PRE_INC";
+		case TOK_POST_INC: return "POST_INC";
+		case TOK_PRE_DEC: return "PRE_DEC";
+		case TOK_POST_DEC: return "POST_DEC";
 		case TOK_PLUS_ASSIGN: return "PLUS_ASSIGN";
 		case TOK_MINUS_ASSIGN: return "MINUS_ASSIGN";
 		case TOK_MUL_ASSIGN: return "MUL_ASSIGN";
