@@ -1,6 +1,7 @@
 %option noyywrap yylineno
 
 %{
+#include <stdio.h>
 #include "scanner.h"
 %}
 
@@ -17,7 +18,11 @@ WS          [ \t\r\n]+
 <COMMENT>"*/"           { BEGIN(INITIAL); }
 <COMMENT>\n             { /* yylineno se actualiza automáticamente */ }
 <COMMENT>.              { /* descartar contenido de comentario */ }
-<COMMENT><<EOF>>        { BEGIN(INITIAL); return TOK_ERROR; }
+<COMMENT><<EOF>>        {
+                            printf("[ERROR:comentario sin cerrar (EOF en linea %d)]\n", yylineno);
+                            BEGIN(INITIAL);
+                            return TOK_EOF;
+                        }
 
 "//"[^\n]*             { /* comentario de línea */ }
 
