@@ -17,7 +17,7 @@ WS          [ \t\r\n]+
 <COMMENT>"*/"           { BEGIN(INITIAL); }
 <COMMENT>\n             { /* yylineno se actualiza automáticamente */ }
 <COMMENT>.              { /* descartar contenido de comentario */ }
-<COMMENT><<EOF>>        { return TOK_ERROR; }
+<COMMENT><<EOF>>        { BEGIN(INITIAL); return TOK_ERROR; }
 
 "//"[^\n]*             { /* comentario de línea */ }
 
