@@ -1,0 +1,15 @@
+
+// Programa de ejemplo disenado para FALLAR: contiene caracteres no reconocidos
+// y un comentario de bloque sin cerrar.
+
+room Glitch(heart dmg) {
+    item hp@ = 10;          // '@' no es un caracter valido en ningun token
+    item cost = 5 $ 2;      // '$' no es un operador reconocido
+    item weird = `hp`;      // el backtick tampoco es valido
+
+    if (hp > 0) {
+        cry("sigue con vida");
+    }
+}
+
+/* este comentario de bloque nunca se cierra

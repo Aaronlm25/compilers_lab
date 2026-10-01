@@ -1,0 +1,54 @@
+
+// Programa de ejemplo, no debe producir ningun ERROR.
+ 
+room BossFight(heart dmg, soulheart bonus) {
+    item hp = 10;
+    item shield = 0;
+    eternal MAX_HP = 10;
+    faith isAlive = angel;
+    rune tag = 'B';
+
+    cry("Boss fight iniciado");
+
+    if (isAlive == devil) {
+        die();
+    }
+
+    while (hp > 0) {
+        item roll_result = roll(1, 6);
+        hp = hp - roll_result;
+
+        if (hp <= 0) {
+            flee;
+        }
+
+        item mask = dmg speedup 1;
+        item combo = mask rangedown shield;
+        item area = mask rangeup shield;
+        item twist = mask puberty shield;
+        item inverse = amnesia mask;
+
+        statup shield;
+
+        for (item i = 0; i < 3; statup i) {
+            cry("golpe de respaldo");
+        }
+
+        foreach (tear t) {
+            dash;
+        }
+    }
+
+    cry("Boss derrotado");
+    drop hp;
+}
+
+room Main(void) {
+    item playerName = pray();
+    item runSeed = seed();
+    eternal PI = 3.14;
+    item msg = "I AM ERROR";
+
+    cry(msg);
+    drop 0;
+}
