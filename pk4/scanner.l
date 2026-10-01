@@ -23,21 +23,41 @@ WS          [ \t\r\n]+
 
 {WS}                    { /* ignorar espacios */ }
 
-"int"                   { return TOK_KW_INT; }
-"float"                 { return TOK_KW_FLOAT; }
-"double"                { return TOK_KW_DOUBLE; }
-"char"                  { return TOK_KW_CHAR; }
+"heart"                 { return TOK_KW_INT; }
+"tear"                  { return TOK_KW_FLOAT; }
+"soulheart"             { return TOK_KW_DOUBLE; }
+"rune"                  { return TOK_KW_CHAR; }
+"faith"                 { return TOK_KW_BOOL; }
 "void"                  { return TOK_KW_VOID; }
 "if"                    { return TOK_KW_IF; }
 "else"                  { return TOK_KW_ELSE; }
 "while"                 { return TOK_KW_WHILE; }
 "for"                   { return TOK_KW_FOR; }
-"return"                { return TOK_KW_RETURN; }
-"break"                 { return TOK_KW_BREAK; }
-"continue"              { return TOK_KW_CONTINUE; }
+"foreach"               { return TOK_KW_FOREACH; }
+"item"                  { return TOK_KW_VAR; }
+"eternal"               { return TOK_KW_CONST; }
+"room"                  { return TOK_KW_FUNC; }
+"drop"                  { return TOK_KW_RETURN; }
+"flee"                  { return TOK_KW_BREAK; }
+"dash"                  { return TOK_KW_CONTINUE; }
+"cry"                   { return TOK_KW_PRINT; }
+"pray"                  { return TOK_KW_INPUT; }
+"die"                   { return TOK_KW_EXIT; }
+"roll"                  { return TOK_KW_ROLL; }
+"seed"                  { return TOK_KW_SEED; }
+"angel"                 { return TOK_BOOL_LITERAL; }
+"devil"                 { return TOK_BOOL_LITERAL; }
 
-"++"                    { return TOK_INC; }
-"--"                    { return TOK_DEC; }
+"speedup"               { return TOK_SHL; }
+"speeddown"             { return TOK_SHR; }
+"rangedown"             { return TOK_BIT_AND; }
+"rangeup"               { return TOK_BIT_OR; }
+"puberty"               { return TOK_BIT_XOR; }
+"amnesia"               { return TOK_BIT_NOT; }
+
+"statup"                { return TOK_INC; }
+"statdown"              { return TOK_DEC; }
+
 "+="                    { return TOK_PLUS_ASSIGN; }
 "-="                    { return TOK_MINUS_ASSIGN; }
 "*="                    { return TOK_MUL_ASSIGN; }
