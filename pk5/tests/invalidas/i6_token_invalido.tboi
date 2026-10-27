@@ -1,0 +1,2 @@
+// "+" no es un token del lenguaje (error lexico)
+item heart vida = 3 + 2;

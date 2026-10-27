@@ -1,0 +1,15 @@
+/* Programa completo: varias declaraciones,
+   rooms anidados y comentarios de bloque */
+item tear lagrimas = 3.5;
+item heart llaves = 2 speedup 1;
+
+room Tesoro() {
+    item faith abierto = devil;
+    room Secreto() {
+        cry(llaves rangeup roll(lagrimas speedup 2));
+        drop amnesia abierto;
+    }
+    flee;
+}
+
+cry(lagrimas);

@@ -1,0 +1,3 @@
+// Program necesita al menos una Decl, un room vacio no es valido
+room Vacio() {
+}

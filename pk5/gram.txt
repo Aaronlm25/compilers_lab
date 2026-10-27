@@ -1,0 +1,20 @@
+1  Program -> Program Decl
+2  Program -> Decl
+3  Decl -> item Type id = Expr ;
+4  Decl -> room id ( ) { Program }
+5  Decl -> drop Expr ;
+6  Decl -> cry ( Expr ) ;
+7  Decl -> flee ;
+8  Type -> heart
+9  Type -> tear
+10 Type -> faith
+11 Expr -> Expr rangeup Shift
+12 Expr -> Shift
+13 Shift -> Shift speedup Atom
+14 Shift -> Atom
+15 Atom -> id
+16 Atom -> num
+17 Atom -> angel
+18 Atom -> devil
+19 Atom -> roll ( Expr )
+20 Atom -> amnesia Atom

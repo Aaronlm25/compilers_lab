@@ -1,0 +1,4 @@
+// Los rooms no reciben parametros en esta gramatica
+room Jefe(x) {
+    flee;
+}

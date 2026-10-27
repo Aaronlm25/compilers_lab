@@ -1,0 +1,3 @@
+// Precedencia: speedup liga mas fuerte que rangeup.
+// Pasa por los estados I15 e I35 (conflictos LR(0) resueltos con Follow).
+item heart dano = base speedup 2 rangeup bonus speedup mult;

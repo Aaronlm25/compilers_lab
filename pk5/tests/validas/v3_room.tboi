@@ -1,0 +1,6 @@
+// Funcion (room) con cuerpo de varias declaraciones
+room Sotano() {
+    item faith vivo = angel;
+    cry(vivo);
+    flee;
+}
